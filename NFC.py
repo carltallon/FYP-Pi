@@ -62,6 +62,6 @@ if __name__ == '__main__':
     text_content = "TEST 1"
     data_to_write = create_text_ndef_record(text_content)
     # Perform NFC tasks (specific actions depend on your application)
-    # Example:
-
-    #pn532.write_to_tag(data_to_write)  # Write data to an NFC tag
+    while(True):
+        print("Writing...")
+        pn532._write_frame(data_to_write)  # Write data to an NFC tag
