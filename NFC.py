@@ -29,26 +29,15 @@ This module will let you communicate with a PN532 RFID/NFC chip
 using UART (ttyS0) on the Raspberry Pi.
 """
 
-
-import time
-import serial
 import RPi.GPIO as GPIO
-from .pn532 import *
+from pn532 import *
 
 # Run application
 if __name__ == '__main__':
     pn532 = PN532_UART(debug=True) 
 
-
     ic, ver, rev, support = pn532.get_firmware_version()
     print('Found PN532 with firmware version: {0}.{1}'.format(ver, rev))
-
-    
-    # Example interaction: Wake up PN532 and perform NFC tasks
-    pn532._wakeup()  # Send wake-up commands
-    time.sleep(1)  # Wait for the module to initialize (add appropriate delay if needed)
-
-    
 
     def create_text_ndef_record(text_content):
         #Create an NDEF Text record
@@ -74,4 +63,6 @@ if __name__ == '__main__':
     data_to_write = create_text_ndef_record(text_content)
     # Perform NFC tasks (specific actions depend on your application)
     # Example:
-    pn532.write_to_tag(data_to_write)  # Write data to an NFC tag
+    
+    #pn532.write_to_tag(data_to_write)  # Write data to an NFC tag
+
