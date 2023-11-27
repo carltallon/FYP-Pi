@@ -56,7 +56,7 @@ if __name__ == '__main__':
             payload_len + 1,  # Payload length (1 byte for language code + text content length)
             0x54         # TNF (Type Name Format): 0x54 for well-known type 'T' (Text)
         ]) + b'T' + text_payload  # 'T' denotes a Text record
-
+        print(ndef_message)
         return ndef_message
 
     text_content = "TEST 1"
