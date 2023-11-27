@@ -33,7 +33,7 @@ using UART (ttyS0) on the Raspberry Pi.
 import time
 import serial
 import RPi.GPIO as GPIO
-from .pn532 import PN532, BusyError
+from .pn532.pn532 import PN532, BusyError
 
 
 # pylint: disable=bad-whitespace
