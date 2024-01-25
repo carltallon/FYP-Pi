@@ -33,7 +33,7 @@ import RPi.GPIO as GPIO
 from pn532 import *
 
 # Run application
-if __name__ == '__main__':
+def writeNFC(receipt_id):
     pn532 = PN532_UART(debug=True) 
 
     ic, ver, rev, support = pn532.get_firmware_version()
@@ -59,9 +59,10 @@ if __name__ == '__main__':
         print(ndef_message)
         return ndef_message
 
-    text_content = "TEST 1"
-    data_to_write = create_text_ndef_record(text_content)
+    data_to_write = create_text_ndef_record(receipt_id)
     # Perform NFC tasks (specific actions depend on your application)
     while(True):
         print("Writing...")
         pn532._write_frame(data_to_write)  # Write data to an NFC tag
+
+    

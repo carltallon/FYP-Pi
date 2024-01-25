@@ -1,0 +1,45 @@
+body {
+    background-color: #ffffff;
+}
+/* Add styling for the button */
+.generatebutton {
+    background-color: #4CAF50; /* Green background color */
+    color: white; /* White text color */
+    padding: 10px 20px; /* Padding for better appearance */
+    font-size: 22px; /* Font size */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Cursor style on hover */
+    margin-top: 10vh;
+}
+
+/* Style the button on hover */
+.generatebutton:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+.center {
+    max-width: 40vw;
+    margin: 10vh auto;
+    padding: 10vh;
+    text-align: center;
+}
+
+
+h1 {
+    font-size: 40px;
+
+}
+
+p {
+    font-size: 20px;
+}
+h2 {
+    font-weight: 100;
+    margin: 1vh;
+
+}
+
+h3 {
+    margin-top: 10vh;
+}

@@ -8,7 +8,7 @@ from flask_cors import CORS
 # Initialise Flask Application
 app = Flask(__name__)
 
-# Enable CORS for all routes of your Flask app
+# Enable CORS for all routes of 
 CORS(app)  
 
 # Generate a barcode
@@ -20,9 +20,10 @@ def generate_barcode(receiptID, barcode_type):
     # & use the image writer to return the parcode as a .png 
     barcode_instance = barcode_class(receiptID, writer=ImageWriter())
 
-    # Define the filename as the ReceiptID
+    # Define the filename 
     filename = f'{receiptID}'  
-    # Define the filepath of where you want the images to be saved 
+
+    # Define the filepath 
     direct_path = '/home/carlt/Documents/FinalYearProject/fyp_venv/barcodes'
     filepath = os.path.join(direct_path, filename) 
     # Save the barcode
@@ -53,14 +54,14 @@ def get_receipt_barcode(receiptID):
         # Send the file using Flask's send_file function, specifiying that it is a png
         return send_file(filepath, mimetype='image/png')
     else:
-        # If the barcode doesn't already exist, we need to generate a new one.
+        # If the barcode doesn't already exist, need to generate a new one.
         print("File doesn't exist.. Creating")
 
-        # Call on the function with the original receiptID variable, specifying the encoding type.
+        # Call on the function with the original receiptID variable
         receiptbarcode = generate_barcode(receiptID, 'code128')
         print("Sending.. ", receiptID)
 
-        # Now send the file using Flask's send_file function, specifiying that it is a png
+        # Now send the file using Flask's send_file function
         return send_file(receiptbarcode, mimetype='image/png')
     
 
