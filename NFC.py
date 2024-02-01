@@ -31,38 +31,45 @@ using UART (ttyS0) on the Raspberry Pi.
 
 import RPi.GPIO as GPIO
 from pn532 import *
+import ndef
+
 
 # Run application
 def writeNFC(receipt_id):
+    
     pn532 = PN532_UART(debug=True) 
 
     ic, ver, rev, support = pn532.get_firmware_version()
     print('Found PN532 with firmware version: {0}.{1}'.format(ver, rev))
 
-    def create_text_ndef_record(text_content):
-        #Create an NDEF Text record
-        # Define the payload for an NDEF Text record (assuming UTF-8 encoding)
-        language_code = 'en'  # Language code (e.g., 'en' for English)
-        text_payload = bytes([len(language_code)]) + language_code.encode('utf-8') + text_content.encode('utf-8')
+    print("Receipt ID = ", receipt_id)
+    message = ndef.TextRecord(receipt_id, encoding='UTF-8')
+    
+    ndef_message = [message]
+    
+    ndef_bytes = ndef.message_encoder(ndef_message)
+    
+    print("Receipt ID in NDEF = ",ndef_bytes)
 
-        # Determine the payload length
-        payload_len = len(text_payload)
 
-        # Define the NDEF message
-        # The structure follows the NDEF standard: [MB(1) | ME(1) | CF(1) | SR(1) | IL(1) | TNF(3) | TYPE LENGTH(1) | PAYLOAD LENGTH(1+) | TYPE(1+) | PAYLOAD(0+)]
-        ndef_message = bytes([
-            0b11010000,  # MB: Message Begin and ME: Message End flags for the first and only record
-            0x01,        # Type length (1 byte)
-            payload_len + 1,  # Payload length (1 byte for language code + text content length)
-            0x54         # TNF (Type Name Format): 0x54 for well-known type 'T' (Text)
-        ]) + b'T' + text_payload  # 'T' denotes a Text record
-        print(ndef_message)
-        return ndef_message
-
-    data_to_write = create_text_ndef_record(receipt_id)
-    # Perform NFC tasks (specific actions depend on your application)
-    while(True):
-        print("Writing...")
-        pn532._write_frame(data_to_write)  # Write data to an NFC tag
-
+    print('Waiting for RFID/NFC card to write to!')
+    while True:
+        # Check if a card is available to read
+        uid = pn532.read_passive_target(timeout=0.5)
+        print('.', end="")
+        if uid is not None:
+            break
+    print('Found card with UID:', [hex(i) for i in uid])
+    
+    # Write block #6
+    block_number = 1
+    data = ndef_bytes
+    
+    try:
+        pn532.ntag2xx_write_block(block_number, data)
+        if pn532.ntag2xx_read_block(block_number) == data:
+            print('write block %d successfully' % block_number)
+    except nfc.PN532Error as e:
+        print(e.errmsg)
+        
     

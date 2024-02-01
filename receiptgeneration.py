@@ -12,14 +12,14 @@ from flask import Flask, render_template, request, redirect, url_for,session
 app = Flask(__name__, template_folder='templateFiles', static_folder='staticFiles')
 
 # Initialise Firebase connection
-cred = credentials.Certificate("fyp-c20432946-firebase-adminsdk-30h42-c7b621ed70.json")
+cred = credentials.Certificate("fyp-c20432946-firebase-adminsdk-lsyrj-812580293a.json")
 firebaseapp = firebase_admin.initialize_app(cred)
 db = firestore.client()
 collection_ref  = db.collection("Receipts")
 
 
 #Import NFC file
-#from NFC import writeNFC
+from NFC import writeNFC
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -79,13 +79,11 @@ def is_receipt_id_unique(receipt_id):
 def handlereceiptinfo(receipt_info):
 
     try:
-
         #firebaseupload(receipt_info)
         print(f'Document added with ID: ')
 
         # Add a new document with an auto-generated ID
-        print("Reading NFC")
-        #read_nfc(receipt_info)
+        read_nfc(receipt_info)
         
     except Exception as e:
         print(f'Error adding document: {e}')
@@ -109,17 +107,18 @@ def firebaseupload(receipt_info):
 
 def read_nfc(receipt_info):
 
-    print("reading NFC....")
+    print("Starting NFC transaction....")
 
-    ReceiptID = receipt_info["Price"]
+    ReceiptID = receipt_info["Receipt ID"]
 
     try:
+        print(ReceiptID)
         # Write to NFC
-        #writeNFC(ReceiptID)
-        print("Writing!!")
+        writeNFC(ReceiptID)
+        print("Transaction complete!!")
     except Exception as e:
         print(e)
 
 # Run application
 if __name__ == '__main__':
-    app.run(host="127.0.0.1", port=8080, debug=True)
+    app.run(host="0.0.0.0", port=5001)
