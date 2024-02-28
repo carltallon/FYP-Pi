@@ -12,17 +12,35 @@
         </head>
         <body>
             <div class = "center">
+        
+        
+                <h1>eReceipt</h1>
 
+                <h4>Use your eReceipt app now to collect your receipt.</h4>
 
-                <h1>Receipt Information</h1>
+                <img src="staticFiles/nfc.jpg" alt="NFC Logo"">
                 
-                <h2>Date = {{ Date }}</h2>
-                <h2>Price = {{ Amount }}</h2>
-                <h2>Location = {{ Location }}</h2>
-                <h2>Receipt ID = {{ ReceiptID }}</h2>
-
-                <h3>Use your E-Receipt app to collect your receipt.</h3>
-
+                <table>
+                  <tr>
+                      <th colspan="2"><h2>Receipt Information</h2></th>
+                  </tr>
+                  <tr>
+                      <td><h2>Receipt Date</h2></td>
+                      <td><h3>{{ Date }}</h3></td>
+                  </tr>
+                  <tr>
+                      <td><h2>Receipt Price</h2></td>
+                      <td><h3>£{{ Amount }}</h3></td>
+                  </tr>
+                  <tr>
+                      <td><h2>Receipt Location</h2></td>
+                      <td><h3>{{ Location }}</h3></td>
+                  </tr>
+                </table>
+        
+                
+                
+                <a href="{{ url_for('index') }}">Collect a new receipt</a>
             </div>
-        </body>
+          </body>
     </html>

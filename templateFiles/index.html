@@ -12,10 +12,19 @@
         </head>
         <body>
             <div class = "center">
-                <h1>E-Receipt</h1>
-                <p>Carl Tallon Final Year Project</p>
+                <img src="staticFiles/icon.png" alt="eReceipt Logo"">
+
+                <h1>eReceipt</h1>
                 <form action="/generate_receipt_data" method="POST">
-                    <Button class = "generatebutton" >Generate a new Receipt</Button>
+        
+                        <input placeholder="Receipt Location" type="text" id="location" name="location" required>
+                        <br>
+                        
+                        <input placeholder = "Amount" type="text" id="amount" name="amount" required> 
+                        
+                        <br>
+
+                        <Button class = "generatebutton" > Collect New Receipt</Button>
                 </form>
             </div>
         </body>

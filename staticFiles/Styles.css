@@ -1,45 +1,105 @@
-body {
+html, body {
     background-color: #ffffff;
-}
+    overflow: hidden;
+  }
+  
 /* Add styling for the button */
 .generatebutton {
-    background-color: #4CAF50; /* Green background color */
-    color: white; /* White text color */
-    padding: 10px 20px; /* Padding for better appearance */
-    font-size: 22px; /* Font size */
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Cursor style on hover */
-    margin-top: 10vh;
+  background-color: #4156F5; /* Green background color */
+  color: white; /* White text color */
+  padding: 10px 20px; /* Padding for better appearance */
+  font-size: 22px; /* Font size */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Cursor style on hover */
+  margin-top: 5vh;
 }
 
 /* Style the button on hover */
 .generatebutton:hover {
-    background-color: #45a049; /* Darker green on hover */
+  background-color: #ffffff; 
+  color: black;
+  border: 2px black solid;
 }
 
 .center {
-    max-width: 40vw;
-    margin: 10vh auto;
-    padding: 10vh;
-    text-align: center;
+  max-width: 40vw;
+  margin: 5vh auto;
+  padding: 10vh;
+  text-align: center;
+}
+.center a {
+  text-decoration: none;
+  font-size: 1.3rem;
+  color: #4156F5;
 }
 
+.center a:hover {
+  color: #000000;
+}
+
+input[type=text] {
+  width: 55%;
+  padding: 12px 20px;
+  font-size: 20px;
+  margin: 8px 0;
+  box-shadow: 2px 2px 5px #4156f550;
+  box-sizing: border-box;
+  border: 1px solid #4156F5;
+}
+
+input[type=text]::placeholder {
+  color: #4156f55b; /* Adjust the color to your preference */
+}
+
+
+img {
+  max-width: 100%; /* Ensures the image doesn't exceed its natural size */
+  height: 17vh; /* Maintains the image's aspect ratio */
+}
+
+form {
+  padding: 20px;
+  font-size: 24px;
+  text-align: center;
+}
 
 h1 {
-    font-size: 40px;
-
+  font-size: 40px;
 }
 
-p {
-    font-size: 20px;
-}
 h2 {
-    font-weight: 100;
-    margin: 1vh;
-
+  font-size: 1.5em;
+  color: #000000;
+  margin: 10px 0;
 }
 
 h3 {
-    margin-top: 10vh;
+  font-size: 1.4em;
+  color: black;
+  margin-top: 20px;
+}
+
+h4 {
+  font-size: 1.6em;
+  color: #4156F5;
+  margin-top: 40px;
+  font-weight: 900;
+}
+
+table {
+  width: 100%;
+  margin: 20px auto;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+  text-align: center;
 }

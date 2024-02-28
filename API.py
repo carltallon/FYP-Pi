@@ -24,7 +24,7 @@ def generate_barcode(receiptID, barcode_type):
     filename = f'{receiptID}'  
 
     # Define the filepath 
-    direct_path = '/home/carlt/Documents/FinalYearProject/fyp_venv/barcodes'
+    direct_path = '/home/carlt/Documents/FinalYearProject/fyp_venv/FYP-Pi/barcodes'
     filepath = os.path.join(direct_path, filename) 
     # Save the barcode
     barcode_instance.save(filepath)
@@ -41,7 +41,7 @@ def get_receipt_barcode(receiptID):
 
     # Format the expected filename of the receipt
     receiptfilepath = f'{receiptID}.png'
-    oldfilepath = '/home/carlt/Documents/FinalYearProject/fyp_venv/barcodes'
+    oldfilepath = '/home/carlt/Documents/FinalYearProject/fyp_venv/FYP-Pi/barcodes'
 
     # Format the filepath of where the expected existing barcode should be saved
     filepath = os.path.join(oldfilepath, receiptfilepath)
@@ -67,4 +67,4 @@ def get_receipt_barcode(receiptID):
 
 # Run application
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='192.168.15.106', port=5000, debug=True)
