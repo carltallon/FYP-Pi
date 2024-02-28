@@ -2,14 +2,12 @@ from barcode.writer import ImageWriter
 import os, barcode
 from flask import Flask, send_file
 
-# CORS ( FOR BROWSERS)
-from flask_cors import CORS  
+ 
 
 # Initialise Flask Application
 app = Flask(__name__)
 
-# Enable CORS for all routes of 
-CORS(app)  
+
 
 # Generate a barcode
 def generate_barcode(receiptID, barcode_type):
