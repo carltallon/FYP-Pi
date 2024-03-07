@@ -95,7 +95,6 @@ def get_receipt_barcode(receiptID):
         # Now send the file using Flask's send_file function
         return send_file(receiptbarcode, mimetype='image/png')
     
-
 # Generate a barcode
 def generate_barcode(receiptID, barcode_type):
     # Create barcode class by querying the barcode type
@@ -116,7 +115,6 @@ def generate_barcode(receiptID, barcode_type):
 
     filepath = filepath + ".png"
     return filepath
-
 
 def generate_receipt_id():
     # Generate a random receipt ID
@@ -176,7 +174,6 @@ def NFC_tag(ndeffilename):
     try:
         result = subprocess.run(NFC_command, shell=True, capture_output=True, text=True, check=True)
 
-        print("Command Output = ")
         print(result.stdout)
         if result.stderr:
             print(result.stderr)
@@ -224,6 +221,7 @@ def handleNFC(receipt_info):
         # Write to NFc
         NFC_tag(ndeffilename)
         print("Transaction complete!!")
+        return render_template('receiptinfo.html', Items=receipt_info["Items"], Date=today_date, Amount=receipt_info["Price"], Location=receipt_info["Shop Location"], ReceiptID=receipt_info["Receipt ID"])
     except Exception as e:
         print(e)
     
