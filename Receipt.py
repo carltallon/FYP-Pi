@@ -24,6 +24,7 @@ firebaseapp = firebase_admin.initialize_app(cred)
 db = firestore.client()
 collection_ref  = db.collection("Receipts")
 
+receipt_data = {"items": [], "total": 0.0}
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -32,18 +33,27 @@ def index():
 
 @app.route('/generate_receipt_data', methods=['POST'])
 def generate_receipt_data():
+
+    global receipt_data
+    data = request.get_json()
+
+    # Access items and total from the received JSON data
+    items = data.get('items', [])
+    total = data.get('total', 0.0)
+
+
     # Generate a unique receipt ID between 1 and 250,000
 
     receipt_id = generate_receipt_id()
     # Get today's dat
     today_date = datetime.now().strftime("%d-%m-%Y")
 
-    shopinformation = request.form['location']
-    price = request.form['amount']
+    shopinformation = "Test Shop Location"
 
     receipt_info = {
         "Date": firestore.SERVER_TIMESTAMP,
-        "Price": price,
+        "Price": total,
+        "Items":items,
         "Shop Location": shopinformation,
         "Receipt ID": receipt_id
     }
@@ -52,6 +62,7 @@ def generate_receipt_data():
     handlereceiptinfo(receipt_info)
     # Render the template first
     return render_template('receiptinfo.html', Date=today_date, Amount=receipt_info["Price"], Location=receipt_info["Shop Location"], ReceiptID=receipt_info["Receipt ID"])
+
 
 # Endpoint to fetch receipt barcode
 @app.route('/receipts/<receiptID>', methods=['GET'])
@@ -112,7 +123,7 @@ def flaskhandler(receipt_info):
     today_date = datetime.now().strftime("%d-%m-%Y")
 
     # Render the template first
-    template_result = render_template('receiptinfo.html', Date=today_date, Amount=receipt_info["Price"], Location=receipt_info["Shop Location"], ReceiptID=receipt_info["Receipt ID"])
+    template_result = render_template('receiptinfo.html', Items=receipt_info["Items"], Date=today_date, Amount=receipt_info["Price"], Location=receipt_info["Shop Location"], ReceiptID=receipt_info["Receipt ID"])
 
     # Use the template_result variable as needed (e.g., return it to the client)
     return template_result
@@ -155,6 +166,7 @@ def firebaseupload(receipt_info):
         'Date': receipt_info["Date"],
         'Location': receipt_info["Shop Location"],
         'ReceiptID': receipt_info["Receipt ID"],
+        'Items': receipt_info['Items']
     }
 
     try:
@@ -210,7 +222,6 @@ def convertndef(ReceiptID):
 
     return filename
 
-
 def handleNFC(receipt_info):
 
     print("Converting to NDEF....")
@@ -228,6 +239,6 @@ def handleNFC(receipt_info):
     
 # Run application
 if __name__ == '__main__':
-    app.run(host="192.168.15.106", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
 
 

@@ -8,24 +8,24 @@ html, body {
   background-color: #4156F5; /* Green background color */
   color: white; /* White text color */
   padding: 10px 20px; /* Padding for better appearance */
-  font-size: 22px; /* Font size */
+  font-size:2rem; /* Font size */
   border: none; /* No border */
   border-radius: 5px; /* Rounded corners */
   cursor: pointer; /* Cursor style on hover */
-  margin-top: 5vh;
+  margin-top: 2vh;
 }
 
 /* Style the button on hover */
 .generatebutton:hover {
   background-color: #ffffff; 
   color: black;
-  border: 2px black solid;
+  border: 1px black solid;
 }
 
 .center {
-  max-width: 40vw;
-  margin: 5vh auto;
-  padding: 10vh;
+  max-width: 60vw;
+  margin: 0vh auto;
+  padding: 2vh;
   text-align: center;
 }
 .center a {
@@ -38,8 +38,29 @@ html, body {
   color: #000000;
 }
 
-input[type=text] {
-  width: 55%;
+.container {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.otherview{
+  padding: 2vh;
+}
+
+.additembtn {
+  background-color: #4156F5; /* Green background color */
+  color: white; /* White text color */
+  padding: 10px 20px; /* Padding for better appearance */
+  font-size: 22px; /* Font size */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Cursor style on hover */
+  margin-top: 4vh;
+  margin-bottom: 5vh;
+}
+
+input[type=text],input[type=number] {
+  width: 45%;
   padding: 12px 20px;
   font-size: 20px;
   margin: 8px 0;
@@ -55,7 +76,9 @@ input[type=text]::placeholder {
 
 img {
   max-width: 100%; /* Ensures the image doesn't exceed its natural size */
-  height: 17vh; /* Maintains the image's aspect ratio */
+  height: 17vh;
+  margin-top: 2vh;
+  margin-bottom: 0px; /* Maintains the image's aspect ratio */
 }
 
 form {
@@ -65,7 +88,9 @@ form {
 }
 
 h1 {
-  font-size: 40px;
+  font-size: 4rem;
+  margin-top: 0px;
+  margin-bottom: 5vh;
 }
 
 h2 {
@@ -102,4 +127,24 @@ th, td {
 th {
   background-color: #f2f2f2;
   text-align: center;
+}
+
+#total {
+  font-size: 1.6rem;
+  padding: 2vh;
+}
+
+.otherview ul {
+  list-style-type: none;
+  padding: 0;
+  font-size: 1.6rem;
+}
+
+.otherview li {
+  margin-bottom: 5px;
+  padding: 8px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  width: 15vw;
+  margin: 10px auto;
 }

@@ -37,6 +37,12 @@
                       <td><h3>{{ Location }}</h3></td>
                   </tr>
                 </table>
+
+                <ul>
+                    {% for item in Items %}
+                        <li>{{ item.name }}: €{{ item.price }}</li>
+                    {% endfor %}
+                </ul>
         
                 
                 

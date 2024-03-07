@@ -1,31 +1,96 @@
 <!DOCTYPE html>
-    <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>E-Receipt</title>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Receipt</title>
+    <link rel="stylesheet" href="staticFiles/Styles.css" />
+</head>
 
-            <link rel="stylesheet" href="staticFiles/Styles.css" />
+<body>
+    <div class="center">
+        <img src="staticFiles/icon.png" alt="eReceipt Logo">
+
+        <h1>eReceipt</h1>
+
+        <div class="container">
             
+            <div class="otherview">
+                <input type="text" class="itemName" placeholder="Item name"><br>
+                <input type="number" class="itemPrice" placeholder="Item price"><br>
 
-        </head>
-        <body>
-            <div class = "center">
-                <img src="staticFiles/icon.png" alt="eReceipt Logo"">
+                <button class="additembtn" onclick="addItem()">Add Item</button>
 
-                <h1>eReceipt</h1>
-                <form action="/generate_receipt_data" method="POST">
-        
-                        <input placeholder="Receipt Location" type="text" id="location" name="location" required>
-                        <br>
-                        
-                        <input placeholder = "Amount" type="text" id="amount" name="amount" required> 
-                        
-                        <br>
-
-                        <Button class = "generatebutton" > Collect New Receipt</Button>
-                </form>
             </div>
-        </body>
-    </html>
+
+            <div class="otherview">
+                <ul id="itemList"></ul>
+
+                <div id="total">Total: €0.00</div>
+            </div>
+
+        </div>
+
+            <button class="generatebutton" onclick="sendData()" >Collect Receipt </button>
+    </div>
+
+    <script>
+        let items = [];
+        let total = 0;
+
+        function addItem() {
+            const itemName = document.querySelector('.itemName').value;
+            const itemPrice = parseFloat(document.querySelector('.itemPrice').value);
+
+            if (itemName && !isNaN(itemPrice) && itemPrice > 0) {
+                items.push({ name: itemName, price: itemPrice });
+                updateItemList();
+                calculateTotal();
+
+            
+                
+            } else {
+                alert('Please enter a valid item name and price.');
+            }
+
+            // Clear input fields
+            document.querySelector('.itemName').value = '';
+            document.querySelector('.itemPrice').value = '';
+        }
+
+        function updateItemList() {
+            const itemListElement = document.getElementById('itemList');
+            itemListElement.innerHTML = '';
+
+            items.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.name}: €${item.price.toFixed(2)}`;
+                itemListElement.appendChild(li);
+            });
+        }
+
+        function sendData() {
+            fetch('/generate_receipt_data', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ items: items, total: total }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+
+        function calculateTotal() {
+            total = items.reduce((acc, item) => acc + item.price, 0);
+            document.getElementById('total').textContent = `Total: €${total.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
