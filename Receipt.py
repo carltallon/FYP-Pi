@@ -25,6 +25,7 @@ db = firestore.client()
 collection_ref  = db.collection("Receipts")
 
 receipt_data = {"items": [], "total": 0.0}
+receipt_info = {}
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -35,6 +36,7 @@ def index():
 def generate_receipt_data():
 
     global receipt_data
+    global receipt_info
     data = request.get_json()
 
     # Access items and total from the received JSON data
@@ -45,7 +47,6 @@ def generate_receipt_data():
 
     receipt_id = generate_receipt_id()
     # Get today's dat
-    today_date = datetime.now().strftime("%d-%m-%Y")
 
     shopinformation = "Test Shop Location"
 
@@ -61,18 +62,17 @@ def generate_receipt_data():
     handlereceiptinfo(receipt_info)
     # Render the template first
 
-    return redirect(url_for('display_receipt', receipt_info=receipt_info))
+    return redirect(url_for('display_receipt', receipt_id=receipt_id))
 
 
 @app.route('/display_receipt/<receipt_id>')
-def display_receipt(receipt_info):
+def display_receipt(receipt_id):
     # Retrieve the processed receipt data based on receipt_id
     # This could involve querying a database or using the data stored in some way
 
-    # For demonstration purposes, let's assume you have a function to get receipt inf
-
     # Render the template with the processed receipt data
     return render_template('receiptinfo.html', Items=receipt_info["Items"], Date=receipt_info["Date"], Amount=receipt_info["Price"], Location=receipt_info["Shop Location"], ReceiptID=receipt_info["Receipt ID"])
+
 
 
 # Endpoint to fetch receipt barcode
