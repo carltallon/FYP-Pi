@@ -13,7 +13,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 
 # Flask packages 
-from flask import Flask, render_template, request, send_file,redirect, url_for
+from flask import Flask, render_template, request, send_file
 
 # Initialise FLask APP
 app = Flask(__name__, template_folder='templateFiles', static_folder='staticFiles')
@@ -25,18 +25,16 @@ db = firestore.client()
 collection_ref  = db.collection("Receipts")
 
 receipt_data = {"items": [], "total": 0.0}
-receipt_info = {}
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     # Render the HTML file (assuming it's in a folder named 'templates' in the same directory)
     return render_template('index.html')
 
-@app.route('/generate_receipt_data', methods=['POST'])
+@app.route('/generate_receipt_data', methods=['GET','POST'])
 def generate_receipt_data():
 
     global receipt_data
-    global receipt_info
     data = request.get_json()
 
     # Access items and total from the received JSON data
@@ -44,7 +42,6 @@ def generate_receipt_data():
     total = data.get('total', 0.0)
 
     # Generate a unique receipt ID between 1 and 250,000
-
     receipt_id = generate_receipt_id()
     # Get today's dat
 
@@ -58,26 +55,13 @@ def generate_receipt_data():
         "Receipt ID": receipt_id
     }
 
-    redirect(url_for('display_receipt', receipt_id=receipt_id))
-    
     handlereceiptinfo(receipt_info)
 
-    return redirect(url_for('display_receipt', receipt_id=receipt_id))
-
-
-@app.route('/display_receipt/<receipt_id>')
-def display_receipt(receipt_id):
-    # Retrieve the processed receipt data based on receipt_id
-    # This could involve querying a database or using the data stored in some way
-
-    # Render the template with the processed receipt data
     return render_template('receiptinfo.html', Items=receipt_info["Items"], Date=receipt_info["Date"], Amount=receipt_info["Price"], Location=receipt_info["Shop Location"], ReceiptID=receipt_info["Receipt ID"])
-
 
 
 # Endpoint to fetch receipt barcode
 @app.route('/receipts/<receiptID>', methods=['GET'])
-
 # Function used to manipulate receiptID variable which was passed into the API
 def get_receipt_barcode(receiptID):
 
@@ -137,7 +121,6 @@ def generate_receipt_id():
     
     return receipt_id
 
-
 def is_receipt_id_unique(receipt_id):
 
     # Query the collection to check if the receipt ID already exists
@@ -158,7 +141,6 @@ def handlereceiptinfo(receipt_info):
     except Exception as e:
         print(f'Error adding document: {e}')
     
-
 def firebaseupload(receipt_info):
 
     data = {
@@ -175,8 +157,6 @@ def firebaseupload(receipt_info):
         print(f'Document added with ID: {doc_ref}')
     except Exception as e:
         print(f'Error adding document: {e}')
-
-
 
 def NFC_tag(ndeffilename):
 
