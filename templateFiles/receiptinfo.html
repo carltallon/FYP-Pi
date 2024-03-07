@@ -7,7 +7,6 @@
             <title>E-Receipt</title>
 
             <link rel="stylesheet" href="staticFiles/Styles.css" />
-            
 
         </head>
         <body>
@@ -18,12 +17,16 @@
 
                 <h4>Use your eReceipt app now to collect your receipt.</h4>
 
-                <img src="staticFiles/nfc.jpg" alt="NFC Logo"">
+                <img src="{{ url_for('static', filename='/staticFiles/nfc.jpg') }}" alt="NFC Image">
                 
                 <table>
                   <tr>
                       <th colspan="2"><h2>Receipt Information</h2></th>
                   </tr>
+                  <tr>
+                    <td><h2>Receipt ID</h2></td>
+                    <td><h3>{{ ReceiptID }}</h3></td>
+                </tr>
                   <tr>
                       <td><h2>Receipt Date</h2></td>
                       <td><h3>{{ Date }}</h3></td>
