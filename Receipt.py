@@ -58,7 +58,7 @@ def generate_receipt_data():
     handlereceiptinfo(receipt_info)
     return redirect(url_for('display_receipt', receiptID=receipt_id))
     
-@app.route('/display_receipt/<receiptID>', methods=['POST'])
+@app.route('/display_receipt/<receiptID>', methods=['GET', 'POST'])
 def display_receipt(receiptID):
     # return render_template('receiptinfo.html', Items=receipt_info["Items"], Date=receipt_info["Date"], Amount=receipt_info["Price"], Location=receipt_info["Shop Location"], ReceiptID=receipt_info["Receipt ID"])
 
