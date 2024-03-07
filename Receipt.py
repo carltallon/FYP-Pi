@@ -58,9 +58,9 @@ def generate_receipt_data():
         "Receipt ID": receipt_id
     }
 
-
+    redirect(url_for('display_receipt', receipt_id=receipt_id))
+    
     handlereceiptinfo(receipt_info)
-    # Render the template first
 
     return redirect(url_for('display_receipt', receipt_id=receipt_id))
 
