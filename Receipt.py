@@ -58,10 +58,10 @@ def generate_receipt_data():
         "Receipt ID": receipt_id
     }
 
-    flaskhandler(receipt_info)
+
     handlereceiptinfo(receipt_info)
     # Render the template first
-    return render_template('receiptinfo.html', Date=today_date, Amount=receipt_info["Price"], Location=receipt_info["Shop Location"], ReceiptID=receipt_info["Receipt ID"])
+    return render_template('receiptinfo.html', Items=receipt_info["Items"], Date=today_date, Amount=receipt_info["Price"], Location=receipt_info["Shop Location"], ReceiptID=receipt_info["Receipt ID"])
 
 
 # Endpoint to fetch receipt barcode
@@ -117,16 +117,6 @@ def generate_barcode(receiptID, barcode_type):
     filepath = filepath + ".png"
     return filepath
 
-   
-def flaskhandler(receipt_info):
-    # Get today's dat
-    today_date = datetime.now().strftime("%d-%m-%Y")
-
-    # Render the template first
-    template_result = render_template('receiptinfo.html', Items=receipt_info["Items"], Date=today_date, Amount=receipt_info["Price"], Location=receipt_info["Shop Location"], ReceiptID=receipt_info["Receipt ID"])
-
-    # Use the template_result variable as needed (e.g., return it to the client)
-    return template_result
 
 def generate_receipt_id():
     # Generate a random receipt ID
