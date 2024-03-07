@@ -13,7 +13,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 
 # Flask packages 
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file,redirect, url_for
 
 # Initialise FLask APP
 app = Flask(__name__, template_folder='templateFiles', static_folder='staticFiles')
@@ -31,7 +31,7 @@ def index():
     # Render the HTML file (assuming it's in a folder named 'templates' in the same directory)
     return render_template('index.html')
 
-@app.route('/generate_receipt_data', methods=['GET','POST'])
+@app.route('/generate_receipt_data', methods=['POST'])
 def generate_receipt_data():
 
     global receipt_data
@@ -56,8 +56,13 @@ def generate_receipt_data():
     }
 
     handlereceiptinfo(receipt_info)
+    return redirect(url_for('display_receipt', receipt_id=receipt_id))
+    
+@app.route('/display_receipt/<receiptID>', methods=['POST'])
+def display_receipt(receipt_id):
+    # return render_template('receiptinfo.html', Items=receipt_info["Items"], Date=receipt_info["Date"], Amount=receipt_info["Price"], Location=receipt_info["Shop Location"], ReceiptID=receipt_info["Receipt ID"])
 
-    return render_template('receiptinfo.html', Items=receipt_info["Items"], Date=receipt_info["Date"], Amount=receipt_info["Price"], Location=receipt_info["Shop Location"], ReceiptID=receipt_info["Receipt ID"])
+    return render_template('receiptinfo.html', ReceiptID=receipt_id)
 
 
 # Endpoint to fetch receipt barcode
