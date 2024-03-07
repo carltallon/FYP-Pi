@@ -141,7 +141,7 @@ def generate_receipt_id():
 def is_receipt_id_unique(receipt_id):
 
     # Query the collection to check if the receipt ID already exists
-    query = collection_ref.filter('receipt_id', '==', receipt_id).limit(1).stream()
+    query = collection_ref.where('receipt_id', '==', receipt_id).limit(1).stream()
     
     # If the query result is empty, the receipt ID is unique
     return not any(query)
