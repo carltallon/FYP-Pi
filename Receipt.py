@@ -13,7 +13,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 
 # Flask packages 
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file,redirect, url_for
 
 # Initialise FLask APP
 app = Flask(__name__, template_folder='templateFiles', static_folder='staticFiles')
@@ -31,7 +31,7 @@ def index():
     # Render the HTML file (assuming it's in a folder named 'templates' in the same directory)
     return render_template('index.html')
 
-@app.route('/generate_receipt_data', methods=['GET', 'POST'])
+@app.route('/generate_receipt_data', methods=['POST'])
 def generate_receipt_data():
 
     global receipt_data
@@ -60,11 +60,20 @@ def generate_receipt_data():
 
     handlereceiptinfo(receipt_info)
     # Render the template first
-    try:
-        return render_template('receiptinfo.html', Items=receipt_info["Items"], Date=today_date, Amount=receipt_info["Price"], Location=receipt_info["Shop Location"], ReceiptID=receipt_info["Receipt ID"])
-    except Exception as e:
-        print(e)
-        return 0
+
+    return redirect(url_for('display_receipt', receipt_info=receipt_info))
+
+
+@app.route('/display_receipt/<receipt_id>')
+def display_receipt(receipt_info):
+    # Retrieve the processed receipt data based on receipt_id
+    # This could involve querying a database or using the data stored in some way
+
+    # For demonstration purposes, let's assume you have a function to get receipt inf
+
+    # Render the template with the processed receipt data
+    return render_template('receiptinfo.html', Items=receipt_info["Items"], Date=receipt_info["Date"], Amount=receipt_info["Price"], Location=receipt_info["Shop Location"], ReceiptID=receipt_info["Receipt ID"])
+
 
 # Endpoint to fetch receipt barcode
 @app.route('/receipts/<receiptID>', methods=['GET'])
@@ -132,7 +141,7 @@ def generate_receipt_id():
 def is_receipt_id_unique(receipt_id):
 
     # Query the collection to check if the receipt ID already exists
-    query = collection_ref.where('receipt_id', '==', receipt_id).limit(1).stream()
+    query = collection_ref.filter('receipt_id', '==', receipt_id).limit(1).stream()
     
     # If the query result is empty, the receipt ID is unique
     return not any(query)
@@ -144,6 +153,7 @@ def handlereceiptinfo(receipt_info):
 
         # Add a new document with an auto-generated ID
         handleNFC(receipt_info)
+
         
     except Exception as e:
         print(f'Error adding document: {e}')
@@ -193,10 +203,7 @@ def convertndef(ReceiptID):
 
     try:
         result = subprocess.run(conversion_command, shell=True, capture_output=True, text=True, check=True)
-
-        print("Ndef Command Output = ")
         print(result.stdout)
-
 
         if result.stderr:
             print(result.stderr)
