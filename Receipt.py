@@ -31,7 +31,7 @@ def index():
     # Render the HTML file (assuming it's in a folder named 'templates' in the same directory)
     return render_template('index.html')
 
-@app.route('/generate_receipt_data', methods=['POST'])
+@app.route('/generate_receipt_data', methods=['GET', 'POST'])
 def generate_receipt_data():
 
     global receipt_data
@@ -40,7 +40,6 @@ def generate_receipt_data():
     # Access items and total from the received JSON data
     items = data.get('items', [])
     total = data.get('total', 0.0)
-
 
     # Generate a unique receipt ID between 1 and 250,000
 
@@ -61,8 +60,11 @@ def generate_receipt_data():
 
     handlereceiptinfo(receipt_info)
     # Render the template first
-    return render_template('receiptinfo.html', Items=receipt_info["Items"], Date=today_date, Amount=receipt_info["Price"], Location=receipt_info["Shop Location"], ReceiptID=receipt_info["Receipt ID"])
-
+    try:
+        return render_template('receiptinfo.html', Items=receipt_info["Items"], Date=today_date, Amount=receipt_info["Price"], Location=receipt_info["Shop Location"], ReceiptID=receipt_info["Receipt ID"])
+    except Exception as e:
+        print(e)
+        return 0
 
 # Endpoint to fetch receipt barcode
 @app.route('/receipts/<receiptID>', methods=['GET'])
@@ -169,7 +171,7 @@ def firebaseupload(receipt_info):
 def NFC_tag(ndeffilename):
 
     NFC_command = f"../nfcpy/examples/tagtool.py -l --device ttyS0 emulate ndef/{ndeffilename} tt3"
-    print("Use your device to collect your Receipt ID")
+    print("Use your device to collect your Receipt ID.")
 
     try:
         result = subprocess.run(NFC_command, shell=True, capture_output=True, text=True, check=True)
@@ -211,7 +213,7 @@ def convertndef(ReceiptID):
 
 def handleNFC(receipt_info):
 
-    print("Converting to NDEF....")
+    print("Converting to NDEF.")
 
     ReceiptID = receipt_info["Receipt ID"]
 
@@ -220,8 +222,7 @@ def handleNFC(receipt_info):
     try:
         # Write to NFc
         NFC_tag(ndeffilename)
-        print("Transaction complete!!")
-        return render_template('receiptinfo.html', Items=receipt_info["Items"], Date=today_date, Amount=receipt_info["Price"], Location=receipt_info["Shop Location"], ReceiptID=receipt_info["Receipt ID"])
+        print("Transaction complete.")
     except Exception as e:
         print(e)
     
