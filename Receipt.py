@@ -60,7 +60,7 @@ def update_items():
     receipt_info = {
         "Date": firestore.SERVER_TIMESTAMP,
         "Price": total,
-        "Items":items,
+        "Items": items,
         "Shop Location": shopinformation,
         "Receipt ID": receipt_id
     }
@@ -71,9 +71,8 @@ def update_items():
 
 @app.route('/display_receipt/<receiptID>', methods=['GET', 'POST'])
 def display_receipt(receiptID):
-    # return render_template('receiptinfo.html', Items=receipt_info["Items"], Date=receipt_info["Date"], Amount=receipt_info["Price"], Location=receipt_info["Shop Location"], ReceiptID=receipt_info["Receipt ID"])
+    return render_template('receiptinfo.html', Items=receipt_info["Items"], Date=receipt_info["Date"], Amount=receipt_info["Price"], Location=receipt_info["Shop Location"], ReceiptID=receiptID)
 
-    return render_template('receiptinfo.html', ReceiptID=receiptID)
 
 
 # Endpoint to fetch receipt barcode

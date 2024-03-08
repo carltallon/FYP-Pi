@@ -46,8 +46,9 @@
 
             if (itemName && !isNaN(itemPrice) && itemPrice > 0) {
                 items.push({ name: itemName, price: itemPrice });
-                updateItemList();
+                
                 calculateTotal();
+                updateItemList();
 
             } else {
                 alert('Please enter a valid item name and price.');
