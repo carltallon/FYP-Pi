@@ -25,6 +25,7 @@ db = firestore.client()
 collection_ref  = db.collection("Receipts")
 
 receipt_data = {"items": [], "total": 0.0}
+receipt_info = {}
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -34,7 +35,17 @@ def index():
 @app.route('/generate_receipt_data', methods=['POST'])
 def generate_receipt_data():
 
+    
+    handlereceiptinfo(receipt_info)
+
+    return redirect(url_for('/display_receipt', receiptID=receipt_id))
+
+
+@app.route('/generate_receipt_data', methods=['POST'])
+def update_items():
+
     global receipt_data
+    global receipt_info
     data = request.get_json()
 
     # Access items and total from the received JSON data
@@ -55,10 +66,8 @@ def generate_receipt_data():
         "Receipt ID": receipt_id
     }
 
-    handlereceiptinfo(receipt_info)
 
-    return redirect(url_for('/display_receipt', receiptID=receipt_id))
-    
+
 @app.route('/display_receipt/<receiptID>', methods=['GET', 'POST'])
 def display_receipt(receiptID):
     # return render_template('receiptinfo.html', Items=receipt_info["Items"], Date=receipt_info["Date"], Amount=receipt_info["Price"], Location=receipt_info["Shop Location"], ReceiptID=receipt_info["Receipt ID"])

@@ -32,7 +32,7 @@
 
         </div>
         <form action="/generate_receipt_data" method="POST">
-            <button class="generatebutton" onclick="sendData()" >Collect Receipt </button>
+            <button class="generatebutton"  >Collect Receipt </button>
         </form>
     </div>
 
@@ -67,10 +67,8 @@
                 li.textContent = `${item.name}: €${item.price.toFixed(2)}`;
                 itemListElement.appendChild(li);
             });
-        }
 
-        function sendData() {
-            fetch('/generate_receipt_data', {
+            fetch('/update_items', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -78,6 +76,7 @@
                 body: JSON.stringify({ items: items, total: total }),
             })
         }
+
 
         function calculateTotal() {
             total = items.reduce((acc, item) => acc + item.price, 0);
