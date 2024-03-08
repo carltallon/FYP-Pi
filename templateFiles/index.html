@@ -31,8 +31,9 @@
             </div>
 
         </div>
-
-        <button class="generatebutton" onclick="sendData()" >Collect Receipt </button>
+        <form action="/generate_receipt_data" method="POST">
+            <button class="generatebutton" onclick="sendData()" >Collect Receipt </button>
+        </form>
     </div>
 
     <script>
