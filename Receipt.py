@@ -73,8 +73,8 @@ def update_items():
 def display_receipt(receiptID):
 
     today_date = datetime.now().strftime("%d-%m-%Y")
-    
-    return render_template('receiptinfo.html', Items=receipt_info["Items"], Date=today_date, Amount=receipt_info["Price"], Location=receipt_info["Shop Location"], ReceiptID=receiptID)
+
+    return render_template('receiptinfo.html', Date=today_date, Amount=receipt_info["Price"], Location=receipt_info["Shop Location"], ReceiptID=receiptID)
 
 
 
