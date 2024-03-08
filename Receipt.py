@@ -35,13 +35,12 @@ def index():
 @app.route('/generate_receipt_data', methods=['POST'])
 def generate_receipt_data():
 
-    
     handlereceiptinfo(receipt_info)
 
-    return redirect(url_for('/display_receipt', receiptID=receipt_id))
+    return redirect(url_for('/display_receipt', receiptID=receipt_info['Receipt ID']))
 
 
-@app.route('/generate_receipt_data', methods=['POST'])
+@app.route('/update_items', methods=['POST'])
 def update_items():
 
     global receipt_data
