@@ -65,6 +65,8 @@ def update_items():
         "Receipt ID": receipt_id
     }
 
+    return "Items updated successfully", 200 
+
 
 
 @app.route('/display_receipt/<receiptID>', methods=['GET', 'POST'])
