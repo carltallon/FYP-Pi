@@ -37,7 +37,7 @@ def generate_receipt_data():
 
     handlereceiptinfo(receipt_info)
 
-    return redirect(url_for('/display_receipt', receiptID=receipt_info['Receipt ID']))
+    return redirect(url_for('display_receipt', receiptID=receipt_info['Receipt ID']))
 
 
 @app.route('/update_items', methods=['POST'])
