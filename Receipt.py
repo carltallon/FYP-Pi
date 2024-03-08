@@ -71,7 +71,10 @@ def update_items():
 
 @app.route('/display_receipt/<receiptID>', methods=['GET', 'POST'])
 def display_receipt(receiptID):
-    return render_template('receiptinfo.html', Items=receipt_info["Items"], Date=receipt_info["Date"], Amount=receipt_info["Price"], Location=receipt_info["Shop Location"], ReceiptID=receiptID)
+
+    today_date = datetime.now().strftime("%d-%m-%Y")
+    
+    return render_template('receiptinfo.html', Items=receipt_info["Items"], Date=today_date, Amount=receipt_info["Price"], Location=receipt_info["Shop Location"], ReceiptID=receiptID)
 
 
 

@@ -41,6 +41,13 @@
                       <td><h2>Receipt Location</h2></td>
                       <td><h3>{{ Location }}</h3></td>
                   </tr>
+                    <tr>
+                        <ul>
+                            {% for item in items %}
+                                <li>{{ item.name }}: €{{ item.price }}</li>
+                            {% endfor %}
+                        </ul>
+                    </tr>
                 </table>
 
                 
