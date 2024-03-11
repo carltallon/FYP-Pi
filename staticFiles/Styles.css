@@ -12,7 +12,7 @@ html, body {
   border: none; /* No border */
   border-radius: 5px; /* Rounded corners */
   cursor: pointer; /* Cursor style on hover */
-  margin-top: 2vh;
+  margin-top: .2vh;
 }
 
 /* Style the button on hover */
@@ -23,9 +23,9 @@ html, body {
 }
 
 .center {
-  max-width: 60vw;
+  max-width: 70vw;
   margin: 0vh auto;
-  padding: 2vh;
+  padding: 1vh;
   text-align: center;
 }
 .center a {
@@ -40,7 +40,8 @@ html, body {
 
 .container {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 30vw 30vw;
+  gap: 10vw;
 }
 
 .otherview{
@@ -55,12 +56,12 @@ html, body {
   border: none; /* No border */
   border-radius: 5px; /* Rounded corners */
   cursor: pointer; /* Cursor style on hover */
-  margin-top: 4vh;
+  margin-top: 2vh;
   margin-bottom: 5vh;
 }
 
 input[type=text],input[type=number] {
-  width: 45%;
+  width: 65%;
   padding: 12px 20px;
   font-size: 20px;
   margin: 8px 0;
@@ -73,10 +74,14 @@ input[type=text]::placeholder {
   color: #4156f55b; /* Adjust the color to your preference */
 }
 
+input[type=number]::placeholder {
+  color: #4156f55b; /* Adjust the color to your preference */
+}
+
 
 img {
   max-width: 100%; /* Ensures the image doesn't exceed its natural size */
-  height: 17vh;
+  height: 15vh;
   margin-top: 2vh;
   margin-bottom: 0px; /* Maintains the image's aspect ratio */
 }
@@ -88,7 +93,7 @@ form {
 }
 
 h1 {
-  font-size: 4rem;
+  font-size: 3rem;
   margin-top: 0px;
   margin-bottom: 5vh;
 }
@@ -102,7 +107,7 @@ h2 {
 h3 {
   font-size: 1.4em;
   color: black;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 h4 {
@@ -110,6 +115,10 @@ h4 {
   color: #4156F5;
   margin-top: 40px;
   font-weight: 900;
+}
+
+h6 {
+  font-size: 1.2rem;
 }
 
 table {
@@ -131,21 +140,22 @@ th {
 
 #total {
   font-size: 1.6rem;
-  padding: 2vh;
+  padding: 0vh;
+  margin-top: 10vh;
 }
 
 .otherview ul {
   list-style-type: none;
   padding: 0;
-  font-size: 1.6rem;
+  font-size: 1.3rem;
 }
 
 .otherview li {
-  margin-bottom: 5px;
+  margin-bottom: 15px;
   padding: 8px;
   background-color: #f0f0f0;
   border-radius: 5px;
-  width: 15vw;
-  margin: 10px auto;
+  width: 20vw;
+  margin: 2px auto;
   
 }
