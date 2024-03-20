@@ -19,7 +19,7 @@ from flask import Flask, render_template, request, send_file,redirect, url_for
 app = Flask(__name__, template_folder='templateFiles', static_folder='staticFiles')
 
 # Initialise Firebase connection
-cred = credentials.Certificate("fyp-c20432946-firebase-adminsdk-s2yt1-f2cef0fa06.json")
+cred = credentials.Certificate("/home/carlt/Documents/FinalYearProject/fyp_venv/FYP-Pi/fyp-c20432946-firebase-adminsdk-s2yt1-f2cef0fa06.json")
 firebaseapp = firebase_admin.initialize_app(cred)
 db = firestore.client()
 collection_ref  = db.collection("Receipts")
@@ -184,7 +184,7 @@ def firebaseupload(receipt_info):
 def NFC_tag(ndeffilename):
 
     # Command to pass NDEF filename using NFC
-    NFC_command = f"../nfcpy/examples/tagtool.py -l --device ttyS0 emulate ndef/{ndeffilename} tt3"
+    NFC_command = f"../nfcpy/examples/tagtool.py -l --device ttyS0 emulate /home/carlt/Documents/FinalYearProject/fyp_venv/FYP-Pi/ndef/{ndeffilename} tt3"
 
     try:
         # RUN COMMAND
@@ -204,7 +204,7 @@ def NFC_tag(ndeffilename):
 # Function to convert receipt ID to NDEF
 def convertndef(ReceiptID):
 
-    conversion_command = f"ndeftool text '{ReceiptID}' save ndef/{ReceiptID}.ndef"
+    conversion_command = f"ndeftool text '{ReceiptID}' save /home/carlt/Documents/FinalYearProject/fyp_venv/FYP-Pi/ndef/{ReceiptID}.ndef"
     filename = ReceiptID + ".ndef"
 
     try:
