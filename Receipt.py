@@ -1,6 +1,6 @@
 # Carl Tallon C20432946 Final Year Project eReceipt
 # Code for for receipt and barcode generation. Also includes API code.
-
+# General Imports 
 import random
 import subprocess
 from datetime import datetime
@@ -24,22 +24,26 @@ firebaseapp = firebase_admin.initialize_app(cred)
 db = firestore.client()
 collection_ref  = db.collection("Receipts")
 
+# Receipt data arrays
 receipt_data = {"items": [], "total": 0.0}
 receipt_info = {}
 
+# Index route for /
 @app.route('/', methods=['GET', 'POST'])
 def index():
     # Render the HTML file (assuming it's in a folder named 'templates' in the same directory)
     return render_template('index.html')
 
+# Path for displaying receipt data after transaction
 @app.route('/generate_receipt_data', methods=['POST'])
 def generate_receipt_data():
 
     handlereceiptinfo(receipt_info)
     
+    # Redirect and display receipt info
     return redirect(url_for('display_receipt', receiptID=receipt_info['Receipt ID']))
 
-
+# Route to update items list
 @app.route('/update_items', methods=['POST'])
 def update_items():
 
@@ -53,7 +57,6 @@ def update_items():
 
     # Generate a unique receipt ID between 1 and 250,000
     receipt_id = generate_receipt_id()
-    # Get today's dat
 
     shopinformation = "Test Shop Location"
 
@@ -67,8 +70,7 @@ def update_items():
 
     return "Items updated successfully", 200 
 
-
-
+# Route to display receipt info
 @app.route('/display_receipt/<receiptID>', methods=['GET', 'POST'])
 def display_receipt(receiptID):
 
@@ -77,7 +79,7 @@ def display_receipt(receiptID):
     return render_template('receiptinfo.html', Date=today_date, Amount=receipt_info["Price"], Location=receipt_info["Shop Location"], ReceiptID=receiptID)
 
 
-
+# API SECTION
 # Endpoint to fetch receipt barcode
 @app.route('/receipts/<receiptID>', methods=['GET'])
 # Function used to manipulate receiptID variable which was passed into the API
@@ -129,6 +131,7 @@ def generate_barcode(receiptID, barcode_type):
     filepath = filepath + ".png"
     return filepath
 
+# Generate receipt ID
 def generate_receipt_id():
     # Generate a random receipt ID
     receipt_id = str(random.randint(1, 250000))
@@ -139,26 +142,27 @@ def generate_receipt_id():
     
     return receipt_id
 
+# Ensure ID is unique
 def is_receipt_id_unique(receipt_id):
 
     # Query the collection to check if the receipt ID already exists
     query = collection_ref.where('receipt_id', '==', receipt_id).limit(1).stream()
     
-    # If the query result is empty, the receipt ID is unique
     return not any(query)
 
+# NFC & Firebase handler
 def handlereceiptinfo(receipt_info):
 
     try:
         firebaseupload(receipt_info)
 
-        # Add a new document with an auto-generated ID
-        handleNFC(receipt_info)
-
         
+        handleNFC(receipt_info)
+    # Error handling  
     except Exception as e:
         print(f'Error adding document: {e}')
     
+# Function to upload receipt details to firebase
 def firebaseupload(receipt_info):
 
     data = {
@@ -176,17 +180,20 @@ def firebaseupload(receipt_info):
     except Exception as e:
         print(f'Error adding document: {e}')
 
+# NFC function, sends receipt ID to NFC device
 def NFC_tag(ndeffilename):
 
+    # Command to pass NDEF filename using NFC
     NFC_command = f"../nfcpy/examples/tagtool.py -l --device ttyS0 emulate ndef/{ndeffilename} tt3"
-    print("Use your device to collect your Receipt ID.")
 
     try:
+        # RUN COMMAND
         result = subprocess.run(NFC_command, shell=True, capture_output=True, text=True, check=True)
 
         print(result.stdout)
         if result.stderr:
             print(result.stderr)
+    # ERROR HANDLING
     except subprocess.CalledProcessError as e:
         print("NFC COMMAND ERROR")
         if e.stdout:
@@ -194,6 +201,7 @@ def NFC_tag(ndeffilename):
         if e.stderr:
             print(e.stderr)
 
+# Function to convert receipt ID to NDEF
 def convertndef(ReceiptID):
 
     conversion_command = f"ndeftool text '{ReceiptID}' save ndef/{ReceiptID}.ndef"
@@ -216,6 +224,8 @@ def convertndef(ReceiptID):
 
     return filename
 
+
+# This funcion converts to ndef, and then passes ndef filename to NFC function
 def handleNFC(receipt_info):
 
     print("Converting to NDEF.")
@@ -234,5 +244,3 @@ def handleNFC(receipt_info):
 # Run application
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
-
-
