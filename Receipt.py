@@ -188,7 +188,7 @@ def NFC_tag(ndeffilename):
 
     try:
         # RUN COMMAND
-        result = subprocess.run(NFC_command, shell=True, capture_output=True, text=True, check=True)
+        result = subprocess.run(NFC_command, shell=True, capture_output=True, text=True)
 
         print(result.stdout)
         if result.stderr:
