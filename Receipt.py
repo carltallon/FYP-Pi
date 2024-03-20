@@ -184,7 +184,7 @@ def firebaseupload(receipt_info):
 def NFC_tag(ndeffilename):
 
     # Command to pass NDEF filename using NFC
-    NFC_command = f"../nfcpy/examples/tagtool.py -l --device ttyS0 emulate /home/carlt/Documents/FinalYearProject/fyp_venv/FYP-Pi/ndef/{ndeffilename} tt3"
+    NFC_command = f"/home/carlt/Documents/FinalYearProject/fyp_venv/nfcpy/examples/tagtool.py -l --device ttyS0 emulate /home/carlt/Documents/FinalYearProject/fyp_venv/FYP-Pi/ndef/{ndeffilename} tt3"
 
     try:
         # RUN COMMAND
