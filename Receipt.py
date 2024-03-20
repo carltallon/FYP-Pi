@@ -134,11 +134,11 @@ def generate_barcode(receiptID, barcode_type):
 # Generate receipt ID
 def generate_receipt_id():
     # Generate a random receipt ID
-    receipt_id = str(random.randint(1, 250000))
+    receipt_id = str(random.randint(1, 2500000))
     
     # Check if the receipt ID is unique
     while not is_receipt_id_unique(receipt_id):
-        receipt_id = str(random.randint(1, 250000))
+        receipt_id = str(random.randint(1, 2500000))
     
     return receipt_id
 
