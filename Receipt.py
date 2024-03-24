@@ -51,6 +51,12 @@ def update_items():
     global receipt_info
     data = request.get_json()
 
+    # Get the current date and time
+    current_date = datetime.now()
+
+    # Extract the month from the current date
+    current_month = current_date.month
+
     # Access items and total from the received JSON data
     items = data.get('items', [])
     total = data.get('total', 0.0)
@@ -65,7 +71,8 @@ def update_items():
         "Price": total,
         "Items": items,
         "Shop Location": shopinformation,
-        "Receipt ID": receipt_id
+        "Receipt ID": receipt_id,
+        "Month": current_month
     }
 
     return "Items updated successfully", 200 
@@ -170,7 +177,8 @@ def firebaseupload(receipt_info):
         'Date': receipt_info["Date"],
         'Location': receipt_info["Shop Location"],
         'ReceiptID': receipt_info["Receipt ID"],
-        'Items': receipt_info['Items']
+        'Items': receipt_info['Items'],
+        'Month': receipt_info['Month']
     }
 
     try:
