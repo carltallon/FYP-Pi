@@ -1,11 +1,15 @@
 # Carl Tallon C20432946 Final Year Project eReceipt
 # Code for for receipt and barcode generation. Also includes API code.
+
+
 # General Imports 
 import random
 import subprocess
 from datetime import datetime
 from barcode.writer import ImageWriter
 import os, barcode
+import calendar
+
 
 # Firebase Imports
 import firebase_admin
@@ -28,7 +32,7 @@ collection_ref  = db.collection("Receipts")
 receipt_data = {"items": [], "total": 0.0}
 receipt_info = {}
 
-# Index route for /
+# route for /
 @app.route('/', methods=['GET', 'POST'])
 def index():
     # Render the HTML file (assuming it's in a folder named 'templates' in the same directory)
@@ -49,6 +53,7 @@ def update_items():
 
     global receipt_data
     global receipt_info
+
     data = request.get_json()
 
     # Get the current date and time
@@ -56,6 +61,9 @@ def update_items():
 
     # Extract the month from the current date
     current_month = current_date.month
+
+    # Convert the numerical month to its corresponding name
+    month_name = calendar.month_name[current_month]
 
     # Access items and total from the received JSON data
     items = data.get('items', [])
@@ -72,7 +80,7 @@ def update_items():
         "Items": items,
         "Shop Location": shopinformation,
         "Receipt ID": receipt_id,
-        "Month": current_month
+        "Month": month_name
     }
 
     return "Items updated successfully", 200 
@@ -106,6 +114,7 @@ def get_receipt_barcode(receiptID):
 
         # Send the file using Flask's send_file function, specifiying that it is a png
         return send_file(filepath, mimetype='image/png')
+    
     else:
         # If the barcode doesn't already exist, need to generate a new one.
         print("File doesn't exist.. Creating")
@@ -131,6 +140,7 @@ def generate_barcode(receiptID, barcode_type):
 
     # Define the filepath 
     direct_path = '/home/carlt/Documents/FinalYearProject/fyp_venv/FYP-Pi/barcodes'
+
     filepath = os.path.join(direct_path, filename) 
     # Save the barcode
     barcode_instance.save(filepath)
@@ -162,7 +172,6 @@ def handlereceiptinfo(receipt_info):
 
     try:
         firebaseupload(receipt_info)
-
         
         handleNFC(receipt_info)
     # Error handling  

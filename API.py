@@ -2,12 +2,8 @@ from barcode.writer import ImageWriter
 import os, barcode
 from flask import Flask, send_file
 
- 
-
 # Initialise Flask Application
 app = Flask(__name__)
-
-
 
 # Generate a barcode
 def generate_barcode(receiptID, barcode_type):
